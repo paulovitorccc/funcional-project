@@ -23,8 +23,9 @@ hashFunction k i table = mod ((mod k 619) + i) m
     m = get_m table
 
 hash k i table 
-  | Map.member key table = hash k (i+1) table 
-  | otherwise = key
+  | not (Map.member key table) = key 
+  | table Map.! key == "DELETED" = key
+  | otherwise = hash k (i+1) table
   where
     key = hashFunction k i table
 
@@ -34,13 +35,13 @@ search e table
   | result == Map.empty = False
   | otherwise = True
   where
-    result = Map.filter (== e) table
+    result = Map.filter (== (show e)) table
 
 -- Insere um objeto não nulo na tabela de hash. O hashtable não trabalha 
 -- com elementos duplicados
 insert [] table = table
 insert (x:xs) table
-  | not (search x newTable) = Map.insert key x newTable
+  | not (search x newTable) = Map.insert key (show x) newTable
   | otherwise = newTable
   where
     key = (hash x 0 newTable)
@@ -58,12 +59,12 @@ indexOf e table
     | result == Map.empty = -1
     | otherwise = (Map.keys result) !! 0
     where
-      result = Map.filter (== e) table
+      result = Map.filter (== (show e)) table
 
 -- Remove um elemento da tabela hash.
 remove e table 
     | key == -1 = table
-    | otherwise = Map.delete key table
+    | otherwise = Map.insert key "DELETED" table
     where
       key = indexOf e table
  
