@@ -2,7 +2,8 @@ module HashTable(
   insert,
   fromList,
   isEmpty,
-  size,
+  get_size,
+  get_m,
   search,
   indexOf,
   remove,
@@ -12,13 +13,20 @@ where
 
 import qualified Data.Map as Map 
 
-hashFunction k i = mod ((mod k 619) + i) 997
+-- Retorna quantos valores foram inseridos na tabela hash.
+get_size table = fromIntegral (Map.size table)
+
+get_m table = 997 * ((round ((get_size table) / 997)) + 1)
+
+hashFunction k i table = mod ((mod k 619) + i) m 
+  where
+    m = get_m table
 
 hash k i table 
   | Map.member key table = hash k (i+1) table 
   | otherwise = key
   where
-    key = hashFunction k i
+    key = hashFunction k i table
 
 -- Pesquisa um determinado elemento na tabela de hash. 
 -- Se não estiver na tabela, retorna false. 
@@ -44,9 +52,6 @@ fromList list = insert list Map.empty
 -- Retorna se a tabela interna está fazia.
 isEmpty table = table == Map.empty
 
--- Retorna quantos valores foram inseridos na tabela hash.
-size table = Map.size table
-
 -- Pesquisa o índice de um elemento na hashtable. Retorna -1 se o 
 -- elemento não está no hashtable.
 indexOf e table 
@@ -61,17 +66,17 @@ remove e table
     | otherwise = Map.delete key table
     where
       key = indexOf e table
-  
-count k i real_key
+ 
+count k i real_key table
     | key == real_key = 0
-    | otherwise = 1 + count k (i + 1) real_key
+    | otherwise = 1 + count k (i + 1) real_key table
     where
-      key = hashFunction k i
+      key = hashFunction k i table
 
-collisions [] = 0
-collisions (x:xs) = c + collisions xs
+collisions [] _ = 0
+collisions (x:xs) table = c + (collisions xs table)
       where
-        c = count (snd x) 0 (fst x)
+        c = count (snd x) 0 (fst x) table
 
 -- Retorna o numero de colisões que ocorreram na tabela.
-getCollisions table = collisions (Map.toList table)
+getCollisions table = collisions (Map.toList table) table
