@@ -5,7 +5,9 @@ module HashTable(
   get_size,
   get_m,
   search,
+  search_by_hash,
   indexOf,
+  indexOf_by_hash,
   remove,
   getCollisions
 )
