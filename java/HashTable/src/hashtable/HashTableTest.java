@@ -335,6 +335,65 @@ class HashTableTest {
 		assertFalse(ht.search(100));
 	}
 	
+	/* Testing searchByHash */
+	
+	@Test
+	void testSearchByHash1() {
+		HashTable ht = new HashTable(20);
+		
+		ht.insert(0);
+		ht.insert(20);
+		ht.insert(44);
+		ht.insert(32);
+		ht.insert(19);
+		
+		assertTrue(ht.searchByHash(0));
+		assertTrue(ht.searchByHash(20));
+		assertTrue(ht.searchByHash(44));
+		assertTrue(ht.searchByHash(32));
+		assertTrue(ht.searchByHash(19));
+		
+		System.out.println(Arrays.toString(ht.toArray()));
+	}
+	
+	@Test
+	void testSearchByHash2() {
+		HashTable ht = new HashTable(20);
+		
+		ht.insert(122);
+		ht.insert(-2321321);
+		ht.insert(-3213214);
+		ht.insert(-33213);
+		ht.insert(-321323);
+		
+		assertTrue(ht.searchByHash(122));
+		assertTrue(ht.searchByHash(-2321321));
+		assertTrue(ht.searchByHash(-3213214));
+		assertTrue(ht.searchByHash(-33213));
+		assertTrue(ht.searchByHash(-321323));
+	}
+	
+	@Test
+	void testSearchByHashNoExisting1() {
+		HashTable ht = new HashTable(20);
+		
+		ht.insert(0);
+		ht.insert(20);
+		ht.insert(44);
+		ht.insert(32);
+		ht.insert(19);
+		
+		assertFalse(ht.searchByHash(100));
+		assertFalse(ht.searchByHash(21));
+		assertTrue(ht.searchByHash(19));
+	}
+	
+	@Test
+	void testSearchByHashNoExisting2() {
+		HashTable ht = new HashTable(20);
+		
+		assertFalse(ht.search(100));
+	}
 	
 	/* Testing indexOf */
 	
@@ -433,5 +492,105 @@ class HashTableTest {
 		HashTable ht = new HashTable(10);
 		
 		assertEquals(-1, ht.indexOf(0));
+	}
+	
+	/* Testing indexOfByHash */
+/* Testing indexOf */
+	
+	@Test
+	void testIndexOfByHash1() {
+		HashTable ht = new HashTable(10);
+		
+		ht.insert(0);
+		ht.insert(10);
+		ht.insert(20);
+		ht.insert(30);
+		ht.insert(40);
+		ht.insert(50);
+		ht.insert(60);
+		ht.insert(70);
+		ht.insert(80);
+		
+		assertEquals(0, ht.indexOfByHash(0));
+		assertEquals(1, ht.indexOfByHash(20));
+		assertEquals(2, ht.indexOfByHash(40));
+		assertEquals(3, ht.indexOfByHash(60));
+		assertEquals(4, ht.indexOfByHash(80));
+		
+		assertEquals(10, ht.indexOfByHash(10));
+		assertEquals(11, ht.indexOfByHash(30));
+		assertEquals(12, ht.indexOfByHash(50));
+		assertEquals(13, ht.indexOfByHash(70));
+	}
+	
+	@Test
+	void testIndexOfByHashNoExisting1() {
+		HashTable ht = new HashTable(10);
+		
+		ht.insert(0);
+		ht.insert(10);
+		ht.insert(20);
+		ht.insert(30);
+		ht.insert(40);
+		ht.insert(50);
+		ht.insert(60);
+		ht.insert(70);
+		ht.insert(80);
+		
+		ht.remove(0);
+		
+		assertEquals(-1, ht.indexOfByHash(0));
+		assertEquals(1, ht.indexOfByHash(20));
+		assertEquals(2, ht.indexOfByHash(40));
+		assertEquals(3, ht.indexOfByHash(60));
+		assertEquals(4, ht.indexOfByHash(80));
+		
+		assertEquals(10, ht.indexOfByHash(10));
+		assertEquals(11, ht.indexOfByHash(30));
+		assertEquals(12, ht.indexOfByHash(50));
+		assertEquals(13, ht.indexOfByHash(70));
+	}
+	
+	@Test
+	void testIndexOfByHashNoExisting2() {
+		HashTable ht = new HashTable(10);
+		
+		ht.insert(0);
+		ht.insert(10);
+		ht.insert(20);
+		ht.insert(30);
+		ht.insert(40);
+		ht.insert(50);
+		ht.insert(60);
+		ht.insert(70);
+		ht.insert(80);
+		
+		ht.remove(0);
+		ht.remove(10);
+		ht.remove(20);
+		ht.remove(30);
+		ht.remove(40);
+		ht.remove(50);
+		ht.remove(60);
+		ht.remove(70);
+		ht.remove(80);
+		
+		assertEquals(-1, ht.indexOfByHash(0));
+		assertEquals(-1, ht.indexOfByHash(20));
+		assertEquals(-1, ht.indexOfByHash(40));
+		assertEquals(-1, ht.indexOfByHash(60));
+		assertEquals(-1, ht.indexOfByHash(80));
+		
+		assertEquals(-1, ht.indexOfByHash(10));
+		assertEquals(-1, ht.indexOfByHash(30));
+		assertEquals(-1, ht.indexOfByHash(50));
+		assertEquals(-1, ht.indexOfByHash(70));
+	}
+	
+	@Test
+	void testIndexOfByHashNoExisting3() {
+		HashTable ht = new HashTable(10);
+		
+		assertEquals(-1, ht.indexOfByHash(0));
 	}
 }

@@ -76,13 +76,27 @@ public class HashTable {
 	}
 	
 	/**
-	 * Dado um elemento, encontra o index dele na hashtable
+	 * Dado um elemento, encontra o index dele na hashtable utilizanto filter de java 8
 	 * 
 	 * @param element O elemento a ser procurado
 	 * @return Retorna a posição do elemento na tabela ou -1 se não for encontrado
 	 */
 	public int indexOf(int element) {
 		return IntStream.range(0, table.length).filter(i -> table[i] != null && !table[i].isRemoved() && table[i].getData() == element).findAny().orElse(-1);
+	}
+	
+	/**
+	 * Dado um elemento, encontra o index dele na hashtable utilizando o hash do elemento
+	 * 
+	 * @param element O elemento a ser procurado
+	 * @return Retorna a posição do elemento na tabela ou -1 se não for encontrado
+	 */
+	public int indexOfByHash(int element) {
+		return indexOfByHashAux(element, hashFunction(element));
+	}
+	
+	private int indexOfByHashAux(int element, int hash) {
+		return (table[hash] == null) ? (-1) : ((!table[hash].isRemoved() && table[hash].getData() == element) ? (hash) : (indexOfByHashAux(element, (++hash) % table.length)));
 	}
 	
 	/**
@@ -96,17 +110,31 @@ public class HashTable {
 	}
 	
 	private DataItem removeAux(int element, int hash) {
-		return (table[hash] == null) ? (null) : ((table[hash].getData() == element) ? (removeFromTable(hash)) : (removeAux(element, (++hash) % table.length)));
+		return (table[hash] == null) ? (null) : ((!table[hash].isRemoved() && table[hash].getData() == element) ? (removeFromTable(hash)) : (removeAux(element, (++hash) % table.length)));
 	}
 
 	/**
-	 * Procura se um elemento esta na tabela
+	 * Verifica se um elemento esta na tabela utilizando streams de java 8
 	 * 
 	 * @param element O elemento a ser procurado
 	 * @return True se caso o elemento esteja na tabela e False caso contrario
 	 */
 	public boolean search(int element) {
 		return Arrays.stream(table).anyMatch(e -> e != null && !e.isRemoved() && e.getData() == element);
+	}
+	
+	/**
+	 * Verifica se um elemento esta na tabela utilizando o hash
+	 * 
+	 * @param element O elemento a ser procurado
+	 * @return True se caso o elemento esteja na tabela e False caso contrario
+	 */
+	public boolean searchByHash(int element) {
+		return searchByHashAux(element, hashFunction(element));
+	}
+	
+	private boolean searchByHashAux(int element, int hash) {
+		return (table[hash] == null) ? (false) : ((!table[hash].isRemoved() && table[hash].getData() == element) ? (true) : (searchByHashAux(element, (++hash) % table.length)));
 	}
 
 	/**
