@@ -32,6 +32,10 @@ class HashTable {
 	}
 
 	insert(value) {
+		if (this.indexOf(value) !== undefined) {
+			alert('Duplicated elements not allowed');
+			return 'Duplicated elements not allowed';
+		}
 		let position = this.hash(value);
 		return this._insertAux(position, value);
 	}
@@ -55,6 +59,8 @@ class HashTable {
 	}
 
 	_insertAux(position, value) {
+
+		if(position >= this.size) position = 0;
 
 		if (this.table[position] === undefined || this.table[position] === 'removed') {
 			// No collision case
