@@ -28,7 +28,7 @@ class HashTable {
 	}
 
 	indexOf(value) {
-		return this._indexOfAux(value, 0)
+		return this._indexOfAux(value, this.hash(value))
 	}
 
 	insert(value) {
@@ -38,8 +38,10 @@ class HashTable {
 
 	remove(value) {
 		const index = this.indexOf(value);
-		if (index === undefined)
+		if (index === undefined) {
+			alert('Element not found')
 			return 'Element not found';
+		}
 		this.table[index] = 'removed';
 	}
 
@@ -82,7 +84,8 @@ class HashTable {
 	}
 
 	_indexOfAux(value, atualIndex) {
-		if(atualIndex >= this.size) return undefined;
+		if(atualIndex >= this.size) atualIndex = 0;
+		if(atualIndex === this.hash(value) - 1) return undefined;
 		return this.table[atualIndex] === value ? atualIndex : this._indexOfAux(value, atualIndex + 1);
 	}
 
