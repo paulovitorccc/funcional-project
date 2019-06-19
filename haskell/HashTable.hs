@@ -1,4 +1,4 @@
-module HashTable(
+module HashTable (
   insert,
   fromList,
   isEmpty,
@@ -13,7 +13,7 @@ module HashTable(
 )
 where
 
-import qualified Data.Map as Map 
+import qualified Data.Map as Map
 
 -- Retorna quantos valores foram inseridos na tabela hash.
 get_size table = fromIntegral (Map.size table)
