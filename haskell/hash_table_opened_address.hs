@@ -18,6 +18,7 @@ import qualified Data.Map as Map
 -- Retorna quantos valores foram inseridos na tabela hash.
 get_size table = fromIntegral (Map.size table)
 
+-- Retorna o tamanho da tabela
 get_m table = 997 * ((round ((get_size table) / 997)) + 1)
 
 hashFunction k i table = mod ((mod k 619) + i) m 
@@ -53,15 +54,15 @@ search_aux elem i table
 -- Se não estiver na tabela, retorna false.
 search_by_hash elem table = search_aux elem 0 table
 
--- Insere um objeto não nulo na tabela de hash. O hashtable não trabalha 
+-- Insere elementos na tabela de hash. O hashtable não trabalha 
 -- com elementos duplicados
 insert [] table = table
 insert (x:xs) table
-  | not (search x newTable) = Map.insert key (show x) newTable
-  | otherwise = newTable
+  | not (search x table) = insert xs newTable
+  | otherwise = insert xs table
   where
-    key = (hash x 0 newTable)
-    newTable = (insert xs table)
+    key = (hash x 0 table)
+    newTable = Map.insert key (show x) table
 
 -- A partir de uma lista de elementos retorna sua respectiva tabela hash
 fromList list = insert list Map.empty
@@ -94,7 +95,7 @@ remove e table
     | key == -1 = table
     | otherwise = Map.insert key "DELETED" table
     where
-      key = indexOf e table
+      key = indexOf_by_hash e table
  
 count k i real_key table
     | key == real_key = 0
