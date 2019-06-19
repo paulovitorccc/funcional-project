@@ -104,10 +104,12 @@ count k i real_key table
       key = hashFunction k i table
 
 collisions [] _ = 0
-collisions (x:xs) table = c + (collisions xs table)
+collisions (x:xs) table
+  | value /= "DELETED" =  c + (collisions xs table)
+  | otherwise = collisions xs table
       where
-        c = count value 0 key table
-        value = fromIntegral (read(snd x)::Int)
+        c = count (fromIntegral (read(value)::Int)) 0 key table
+        value = snd x
         key = fst x
 
 -- Retorna o numero de colisões que ocorreram na tabela.
