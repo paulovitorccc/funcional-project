@@ -1,30 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
 	<title>Hash Table View</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	 <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	<style type="text/css">
-		table, th, td {
+		table, th, td{
   			border: 1px solid black;
-  			width: 200px;
+  			width: 100%;
+  			text-align: center;
+  			font-size: 18px;
+  			color: black;
+		}
+		body {
+		  /* Location of the image */
+		  background-image: url(bg.jpg);
+		  
+		  /* Background image is centered vertically and horizontally at all times */
+		  background-position: center center;
+		  
+		  /* Background image doesn't tile */
+		  background-repeat: no-repeat;
+		  
+		  /* Background image is fixed in the viewport so that it doesn't move when 
+		     the content's height is greater than the image's height */
+		  background-attachment: fixed;
+		  
+		  /* This is what makes the background image rescale based
+		     on the container's size */
+		  background-size: cover;
+		  
+		  /* Set a background color that will be displayed
+		     while the background image is loading */
+		  background-color: #464646;
+		}
+		input{
+			color: black;
 		}
 	</style>
 </head>
-<body >
+<body class="container" style="text-align: center">
 	<br>
-	<div>
-		<input id="insert" type="text" name="">
-		<button onclick="insert()">Inserir</button>
-	</div><br>
-	<div>
-		<input id="remove" type="text" name="">
-		<button onclick="remove()">Remover</button>
-	</div><br>
-	<div id="here_table"></div>
+	<br>
+	<div style="background-color: rgba(255,255,255,0.9);">
+		<br>
+		<div style="padding: 2%">
+			<h2>Tabela Hash Funcional</h2>
+			<div class="input-field col s6">
+	          <input id="operation" type="text" class="validate">
+	          <label for="operation">Digite o Valor que deseja Inserir/Remover</label>
+	          <button class="waves-effect waves-light btn" onclick="insert()">Inserir</button>
+	          <button class="waves-effect waves-light btn" onclick="remove()">Remover</button>
+	        </div><br>
+		</div>
+	</div>
+	<br>
+	<div style="background-color: rgba(255,255,255,0.9); padding: 2%;">
+		<lable><b>Tamanho Atual: </b><span id="size"></span></lable>
+		&nbsp;
+		<lable><b>Capacidade: </b><span id="cap"></span></lable>
+		&nbsp;
+		<lable><b>Colisões: </b><span id="col"></span></lable>
+		<div id="here_table"></div>
+		<br>
+	</div><br><br>
 <script
   src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
   crossorigin="anonymous"></script>
  <script src="HashTable.js"></script>
+ <script src="script.js"></script>
 </body>
 </html>

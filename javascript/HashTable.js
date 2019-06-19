@@ -24,7 +24,7 @@ class HashTable {
 	}
 
 	tableSize() {
-		return this.table.filter((element) => {return (element !== undefined)}).length;
+		return this.table.filter((element) => {return (element !== undefined && element !== 'removed')}).length;
 	}
 
 	indexOf(value) {
@@ -71,7 +71,8 @@ class HashTable {
 				return this._insertAux(position+1, value)
 			}
 
-			return 'Duplicated elements not allowed'
+			alert('Duplicated elements not allowed');
+			return 'Duplicated elements not allowed';
 		}
 
 	}
@@ -88,6 +89,7 @@ class HashTable {
 	_tryGrowUp() {
 		if (this.tableSize() > (this.size * 0.5)) {
 			console.log('Table size duplicated');
+			alert('Table size duplicated');
 			this.size = this.size * 2;
 			this.table[this.size] = undefined;
 			this.collisions[this.size] = undefined;
@@ -95,39 +97,3 @@ class HashTable {
 	}
 
 }
-
-
-// Daqui pra baixo é pra interface, amanha vou separar
-const ht = new HashTable();
-
-// Inserir uns pra começar
-ht.insert(2)
-ht.insert(3)
-ht.insert(4)
-ht.insert(6)
-
-function update_table() {
-	$('#here_table').empty();
-	$('#here_table').append( '<thead><td>' + 'Index'  + '</td><td>Value</td></thead>' );
-	 for(i=0;i<ht.size;i++){
-	 	let value = (ht.table[i] === undefined ? 'Ø' : ht.table[i])
-	    $('#here_table').append( '<tbody><td>' +  i + '</td><td>' + value +'</td></tbody>' );
-	  }
-	$('#here_table').append(  '</table>' );
-}
-
-function insert() {
-	const value = $('#insert').val();
-	ht.insert(value);
-	$('#insert').val('');
-	update_table();
-}
-
-function remove() {
-	const value = $('#remove').val();
-	ht.remove(value);
-	$('#remove').val('');
-	update_table();
-}
-
-update_table();
